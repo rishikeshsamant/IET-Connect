@@ -1,0 +1,46 @@
+# Node modules (server + client)
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# dotenv environment files
+*.env
+*.env.local
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Build output
+client/build/
+dist/
+
+# Editor folders
+.vscode/
+.idea/
+
+# Coverage (testing)
+coverage/
+
+# if using React testing
+client/src/setupTests.js
+client/src/reportWebVitals.js
+
+# if using Tailwind CLI
+tailwind.config.js
+
+# if using eslint or prettier
+.eslintcache
+.prettierignore
+.prettierrc
+
+# if using logs for PM2 or similar
+logs/
+
+*.env
