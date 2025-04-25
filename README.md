@@ -1,1 +1,32 @@
 # IET-Connect
+
+## Setup 
+
+### Clone the Repository
+```bash
+git clone https://github.com/rishikeshsamant/IET-Connect.git
+cd IET-Connect
+```
+
+### Backend Setup (Node + Express)
+
+```bash
+cd server 
+npm install
+```
+
+Create a .env file inside server/ directory and add the necessary environment variables.
+
+### Frontend Setup (React)
+
+```bash
+cd ../client
+npm install
+```
+
+Create a .env file inside client/ directory and add the necessary environment variables.
+
+### Run the Application
+```bash
+npm run dev
+```
