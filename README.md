@@ -11,7 +11,7 @@ cd IET-Connect
 ### Backend Setup (Node + Express)
 
 ```bash
-cd server 
+cd backend 
 npm install
 ```
 
@@ -20,7 +20,7 @@ Create a .env file inside server/ directory and add the necessary environment va
 ### Frontend Setup (React)
 
 ```bash
-cd ../client
+cd ../frontend
 npm install
 ```
 
