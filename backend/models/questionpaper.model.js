@@ -8,9 +8,9 @@ const questionPaperSchema = new mongoose.Schema(
       trim: true,
     },
     branch: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Branch',
       required: true,
-      trim: true,
     },
     semester: {
       type: Number,
@@ -19,9 +19,9 @@ const questionPaperSchema = new mongoose.Schema(
       max: 8,
     },
     subject: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Subject",
       required: true,
-      trim: true,
     },
     year: {
       type: Number,
@@ -33,8 +33,13 @@ const questionPaperSchema = new mongoose.Schema(
     },
     uploadedBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Student',
+      ref: "Student",
       required: true,
+    },
+    approvalStatus: {
+      type: String,
+      enum: ["Pending", "Approved", "Rejected"],
+      default: "Pending",
     },
   },
   { timestamps: true }
