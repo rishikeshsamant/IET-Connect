@@ -1,11 +1,14 @@
 {
   "name": "iet-connect",
   "scripts": {
-  "frontend": "npm run dev --prefix frontend",
-  "backend": "npm run dev --prefix backend",
-  "dev": "concurrently \"npm run frontend\" \"npm run backend\""
+    "frontend": "npm run dev --prefix frontend",
+    "backend": "npm run dev --prefix backend",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\""
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
+  },
+  "dependencies": {
+    "react-router-dom": "^7.5.3"
   }
 }
