@@ -9,7 +9,7 @@ const questionPaperSchema = new mongoose.Schema(
     },
     branch: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Branch',
+      ref: "Branch",
       required: true,
     },
     semester: {
@@ -40,6 +40,11 @@ const questionPaperSchema = new mongoose.Schema(
       type: String,
       enum: ["Pending", "Approved", "Rejected"],
       default: "Pending",
+    },
+    type: {
+      type: String,
+      enum: ["Periodic Test", "Previous Year Question Paper", "Question Bank"],
+      required: true,
     },
   },
   { timestamps: true }
