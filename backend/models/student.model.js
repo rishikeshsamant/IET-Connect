@@ -7,6 +7,13 @@ const studentSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    rollno: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      uppercase: true,
+    },
     email: {
       type: String,
       required: true,
@@ -26,6 +33,13 @@ const studentSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+studentSchema.pre("save", function (next) {
+  if (this.rollno) {
+    this.rollno = this.rollno.toUpperCase();
+  }
+  next();
+});
 
 const Student = mongoose.model('Student', studentSchema);
 
