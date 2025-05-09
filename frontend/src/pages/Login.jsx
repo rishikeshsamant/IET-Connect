@@ -6,7 +6,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import XIcon from '@mui/icons-material/X';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { useState, useReducer, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { SignUpContext } from '../App';
 
 export default function Login() {
@@ -60,7 +60,7 @@ export default function Login() {
 
     if (match) {
       setSuccessMessage('🎉 Congratulations! Logged in successfully.');
-      setTimeout(() => navigate('/'), 1500);
+      setTimeout(() => navigate('/profile'), 1500);
     } else {
       if (!randomData.some((user) => user.email === state.email)) {
         setEmailError(true);
@@ -141,7 +141,7 @@ export default function Login() {
                   )}
 
                   <div className="text-right text-sm text-gray-500 hover:underline cursor-pointer">
-                    Forgot Password?
+                    <Link to={"/forgotpassword"}>Forgot Password?</Link>
                   </div>
 
                   <button type="submit" className="bg-[#674AFE] text-white py-2 rounded font-semibold hover:opacity-90 transition">
@@ -162,7 +162,6 @@ export default function Login() {
 }
 
 function SignUp({ setIsSignUpActive }) {
-  const [userNameError, setUserNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [passwordMatchError, setPasswordMatchError] = useState(false);
@@ -170,7 +169,6 @@ function SignUp({ setIsSignUpActive }) {
 
   const initialState = {
     rollNumber: '',
-    userName: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -199,13 +197,6 @@ function SignUp({ setIsSignUpActive }) {
 
   const validate = () => {
     let isValid = true;
-
-    if (state.userName.length < 8) {
-      setUserNameError(true);
-      isValid = false;
-    } else {
-      setUserNameError(false);
-    }
 
     if (state.email.includes("@gmail")) {
       setEmailError(false);
@@ -259,15 +250,6 @@ function SignUp({ setIsSignUpActive }) {
             <input type="text" name="rollNumber" placeholder="Roll Number (e.g. 23CSE123)" className="outline-none w-full"
               value={state.rollNumber} onChange={handleChange} />
           </div>
-        </div>
-
-        <div>
-          <div className="flex items-center border border-gray-400 rounded px-3 py-2">
-            <PersonIcon className="text-black mr-2" />
-            <input type="text" name="userName" placeholder="Username" className="outline-none w-full"
-              value={state.userName} onChange={handleChange} />
-          </div>
-          {userNameError && <div className="text-red-500 text-sm">Username should be at least 8 characters long</div>}
         </div>
 
         <div>
