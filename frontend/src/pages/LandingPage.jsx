@@ -3,12 +3,15 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import SearchIcon from '@mui/icons-material/Search';
 import LockIcon from '@mui/icons-material/Lock';
 import Footer from "../components/Footer";
+import { useContext } from "react";
+import { SignUpContext } from "../App";
 
 export default function LandingPage() {
+  const { isSignUpActive, setIsSignUpActive } = useContext(SignUpContext);
   return (
     <>
       <div className="flex justify-center items-center p-4 flex-col">
-        <Navbar />
+        <Navbar setIsSignUpActive={setIsSignUpActive}/>
         <div className="flex h-[auto] md:h-[80vh] w-full mt-12 md:mt-0.5 items-center justify-center md:justify-evenly flex-col md:flex-row gap-10 md:gap-0">
           <div className="w-full md:w-[40vw] flex flex-col gap-6 md:gap-8 items-center md:items-start text-center md:text-left">
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900">

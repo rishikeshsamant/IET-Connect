@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function Navbar() {
+export default function Navbar({ setIsSignUpActive }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const NavOpt = [
@@ -30,11 +30,11 @@ export default function Navbar() {
             ))}
           </ul>
           <div className="flex gap-4">
-            <button className="bg-[#674AFE] px-4 py-2 rounded-full text-white hover:bg-[#a797fa]">
-              Login
+            <button className="bg-[#674AFE] px-4 py-2 rounded-full text-white hover:bg-[#a797fa]" onClick={() => setIsSignUpActive(false)}>
+              <Link to={"/login"}>Login</Link>
             </button>
-            <button className="bg-black px-4 py-2 rounded-full text-white hover:bg-[#383838]">
-              Register
+            <button className="bg-black px-4 py-2 rounded-full text-white hover:bg-[#383838]" onClick={() => setIsSignUpActive(true)}>
+              <Link to={"/login"}>Register</Link>
             </button>
           </div>
         </div>
@@ -59,13 +59,13 @@ export default function Navbar() {
             </li>
           ))}
           <li>
-            <button className="bg-[#674AFE] px-6 py-2 rounded-full text-white hover:bg-[#a797fa] w-40">
-              Login
+            <button className="bg-[#674AFE] px-6 py-2 rounded-full text-white hover:bg-[#a797fa] w-40" onClick={() => setIsSignUpActive(false)}>
+              <Link to={"/login"}>Login</Link>
             </button>
           </li>
           <li>
-            <button className="bg-black px-6 py-2 rounded-full text-white hover:bg-[#383838] w-40">
-              Register
+            <button className="bg-black px-6 py-2 rounded-full text-white hover:bg-[#383838] w-40" onClick={() => setIsSignUpActive(true)}>
+              <Link to={"/login"}>Register</Link>
             </button>
           </li>
         </ul>
