@@ -16,7 +16,7 @@ export default function ForgotPassword() {
     const [successMessage, setSuccessMessage] = useState('');
     const DummyData = [
         { email: "yasir@gmail.com", otp: "1234" },
-        { email: "yasir1@gmail.com", otp: "4321" },
+        { email: "yasir@gmail.com", otp: "4321" },
     ];
 
     const handleSubmit = (e) => {
