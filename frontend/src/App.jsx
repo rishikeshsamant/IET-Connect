@@ -5,24 +5,32 @@ import Login from './pages/Login';
 import { createContext, useState } from 'react';
 import Profile from './pages/profile';
 import ForgotPassword from './components/ForgotPassword';
+import Download from './pages/Download';
 
-// export const LoginContext = createContext();
 export const SignUpContext = createContext();
+export const UploadContext = createContext();
+export const DownloadContext = createContext();
 
 function App() {
-  // const [isLoginActive, setIsLoginActive] = useState(false);
+  const [isUploadActive, setIsUploadActive] = useState(false);
+  const [isDownloadActive, setIsDownloadActive] = useState(true);
   const [isSignUpActive, setIsSignUpActive] = useState(false);
   return (
     <>
       <SignUpContext.Provider value={{ isSignUpActive, setIsSignUpActive }}>
-        <Router>
-          <Routes>
-            <Route path='/' element={<LandingPage />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/profile' element={<Profile />} />
-            <Route path='/forgotpassword' element={<ForgotPassword/>} />
-          </Routes>
-        </Router>
+        <DownloadContext.Provider value={{ isDownloadActive, setIsDownloadActive }}>
+          <UploadContext.Provider value={{ isUploadActive, setIsUploadActive }}>
+            <Router>
+              <Routes>
+                <Route path='/' element={<LandingPage />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/profile' element={<Profile />} />
+                <Route path='/forgotpassword' element={<ForgotPassword />} />
+                <Route path='/download' element={<Download />} />
+              </Routes>
+            </Router>
+          </UploadContext.Provider>
+        </DownloadContext.Provider>
       </SignUpContext.Provider>
     </>
   )
