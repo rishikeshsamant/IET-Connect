@@ -15,7 +15,7 @@ cd backend
 npm install
 ```
 
-Create a .env file inside server/ directory and add the necessary environment variables.
+Create a .env file inside backend/ directory and add the necessary environment variables.
 
 ### Frontend Setup (React)
 
@@ -24,7 +24,7 @@ cd ../frontend
 npm install
 ```
 
-Create a .env file inside client/ directory and add the necessary environment variables.
+Create a .env file inside frontend/ directory and add the necessary environment variables.
 
 ### Run the Application
 ```bash
