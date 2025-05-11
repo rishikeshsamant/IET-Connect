@@ -82,7 +82,6 @@ function DownloadActive() {
     );
 
     const handleView = (link) => {
-        // Make sure the link is properly formatted for viewing
         const viewLink = link.startsWith('/') ? link : `/${link}`;
         setCurrentPaperLink(viewLink);
         setViewPaper(true);
@@ -96,9 +95,9 @@ function DownloadActive() {
     return (
         <div className="mt-16 flex items-center justify-center flex-col gap-12 px-4 text-center mb-6">
             {viewPaper && (
-                <ViewPaper 
-                    paperLink={currentPaperLink} 
-                    onClose={handleCloseView} 
+                <ViewPaper
+                    paperLink={currentPaperLink}
+                    onClose={handleCloseView}
                 />
             )}
             <div className="flex flex-col gap-4">
@@ -108,11 +107,11 @@ function DownloadActive() {
                 </p>
             </div>
 
-            <div className="w-full max-w-4xl flex flex-wrap justify-center gap-4">
+            <div className="w-full max-w-4xl flex flex-wrap justify-center gap-4 sticky top-2 rounded-xl md:rounded-full bg-white py-4 shadow-xl">
                 <select
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    className="w-[260px] md:w-[200px] bg-white border border-gray-300 text-gray-700 text-sm md:text-base rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#674AFE] shadow-sm transition-all"
+                    className="w-[100px] md:w-[200px] bg-white border border-gray-300 text-gray-700 text-sm md:text-base rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#674AFE] shadow-sm transition-all"
                 >
                     {Subjects.map((val, index) => (
                         <option value={val} key={index}>{val}</option>
@@ -122,7 +121,7 @@ function DownloadActive() {
                 <select
                     value={branch}
                     onChange={(e) => setBranch(e.target.value)}
-                    className="w-[260px] md:w-[200px] bg-white border border-gray-300 text-gray-700 text-sm md:text-base rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#674AFE] shadow-sm transition-all"
+                    className="w-[100px] md:w-[200px] bg-white border border-gray-300 text-gray-700 text-sm md:text-base rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#674AFE] shadow-sm transition-all"
                 >
                     {Branches.map((val, index) => (
                         <option value={val} key={index}>{val}</option>
@@ -132,7 +131,7 @@ function DownloadActive() {
                 <select
                     value={semester}
                     onChange={(e) => setSemester(e.target.value)}
-                    className="w-[260px] md:w-[200px] bg-white border border-gray-300 text-gray-700 text-sm md:text-base rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#674AFE] shadow-sm transition-all"
+                    className="w-[100px] md:w-[200px] bg-white border border-gray-300 text-gray-700 text-sm md:text-base rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#674AFE] shadow-sm transition-all"
                 >
                     {Semesters.map((val, index) => (
                         <option value={val} key={index}>{val}</option>
@@ -142,7 +141,7 @@ function DownloadActive() {
                 <select
                     value={year}
                     onChange={(e) => setYear(e.target.value)}
-                    className="w-[260px] md:w-[200px] bg-white border border-gray-300 text-gray-700 text-sm md:text-base rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#674AFE] shadow-sm transition-all"
+                    className="w-[100px] md:w-[200px] bg-white border border-gray-300 text-gray-700 text-sm md:text-base rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#674AFE] shadow-sm transition-all"
                 >
                     {Years.map((val, index) => (
                         <option value={val} key={index}>{val}</option>
@@ -150,19 +149,27 @@ function DownloadActive() {
                 </select>
 
             </div>
+            <div className="w-full max-w-4xl grid grid-cols-4 text-center text-xs md:text-base font-semibold text-gray-700">
+                <div>Subject</div>
+                <div>Semester</div>
+                <div>Year</div>
+                <div>Options</div>
+            </div>
 
-            <div className="flex flex-wrap gap-6 justify-center">
+            <div className="flex flex-col gap-4 w-full items-center">
                 {filteredData.length > 0 ? (
-                    filteredData.map((item, index) => (
-                        <SubjectCard
-                            key={index}
-                            subject={item.subject}
-                            semester={item.semester}
-                            year={item.year}
-                            link={item.link}
-                            handleView={() => handleView(item.link)}
-                        />
-                    ))
+                    [...filteredData]
+                        .sort((a, b) => b.year - a.year)
+                        .map((item, index) => (
+                            <SubjectCard
+                                key={index}
+                                subject={item.subject}
+                                semester={item.semester}
+                                year={item.year}
+                                link={item.link}
+                                handleView={() => handleView(item.link)}
+                            />
+                        ))
                 ) : (
                     <p className="text-gray-500 font-medium">No results found.</p>
                 )}

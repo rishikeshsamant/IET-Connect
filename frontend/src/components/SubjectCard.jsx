@@ -1,29 +1,23 @@
 import DownloadIcon from '@mui/icons-material/Download';
-import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
 
-export default function SubjectCard({ subject, year, semester, link, handleView }) {
+export default function SubjectCard({ subject, semester, year, link, handleView }) {
     return (
-        <div className="w-64 rounded-xl shadow-xl bg-white overflow-hidden">
-            <div className="bg-[#674AFE] text-white px-6 py-5 rounded-b-3xl">
-                <h2 className="text-xl font-bold">{subject}</h2>
-                <div className="flex justify-between items-center mt-3 text-sm">
-                    <div className="flex items-center gap-2">
-                        <CalendarTodayIcon style={{ fontSize: 18 }} />
-                        <span className="font-semibold">{year}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <MenuBookIcon style={{ fontSize: 18 }} />
-                        <span className="font-semibold">{semester}</span>
-                    </div>
-                </div>
-            </div>
-            <div className="p-4 flex flex-col gap-3">
-                <button className="flex items-center justify-center gap-2 bg-[#674AFE] text-white font-medium py-2 rounded-md transition hover:bg-[#5638d8]">
-                    <DownloadIcon style={{ fontSize: 18 }} />
-                    <a href={link} download={"paper.pdf"}>Download</a>
+        <div className="w-full max-w-4xl grid grid-cols-4 items-center bg-white border border-gray-300 rounded-xl shadow-sm p-4 text-center text-sm md:text-base">
+            {/* Subject */}
+            <div className="font-semibold text-gray-600">{subject}</div>
+
+            {/* Semester */}
+            <div className="font-semibold text-gray-600">{semester}</div>
+
+            {/* Year */}
+            <div className="font-semibold text-gray-600">{year}</div>
+
+            {/* Actions */}
+            <div className="flex justify-center gap-3">
+                <button className="flex items-center justify-center bg-[#674AFE] text-white font-medium  rounded-[4px] md:rounded-full transition h-10 w-10 md:h-15 md:w-15 hover:bg-[#5638d8] cursor-pointer">
+                    <DownloadIcon className="action-icon" />
+                    <a href={link} download={"paper.pdf"}></a>
                 </button>
                 <button
                     onClick={(e) => {
@@ -31,12 +25,11 @@ export default function SubjectCard({ subject, year, semester, link, handleView 
                         e.stopPropagation();
                         handleView();
                     }}
-                    className="flex items-center justify-center gap-2 bg-gray-200 text-gray-700 font-medium py-2 rounded-md transition hover:bg-gray-300"
+                    className="flex items-center justify-center bg-gray-200 text-gray-700 font-medium py-2 rounded-[4px] md:rounded-full transition h-10 w-10 md:h-15 md:w-15 hover:bg-gray-300 cursor-pointer"
                 >
-                    <VisibilityIcon style={{ fontSize: 18 }} /> View
+                  <VisibilityIcon className="action-icon" />
                 </button>
             </div>
         </div>
     );
 }
-

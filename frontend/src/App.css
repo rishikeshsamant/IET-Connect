@@ -13,3 +13,12 @@ a{
     color: blueviolet;
     background: #6872fd;
 }
+.action-icon {
+  font-size: 25px !important; 
+}
+
+@media (max-width: 767px) {
+  .action-icon {
+    font-size: 15px !important;
+  }
+}
