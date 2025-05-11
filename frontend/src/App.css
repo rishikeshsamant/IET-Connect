@@ -8,3 +8,8 @@
 a{
     all: unset;
 }
+
+::selection{
+    color: blueviolet;
+    background: #6872fd;
+}

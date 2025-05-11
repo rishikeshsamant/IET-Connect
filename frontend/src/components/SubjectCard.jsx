@@ -26,7 +26,11 @@ export default function SubjectCard({ subject, year, semester, link, handleView 
                     <a href={link} download={"paper.pdf"}>Download</a>
                 </button>
                 <button
-                    onClick={handleView}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleView();
+                    }}
                     className="flex items-center justify-center gap-2 bg-gray-200 text-gray-700 font-medium py-2 rounded-md transition hover:bg-gray-300"
                 >
                     <VisibilityIcon style={{ fontSize: 18 }} /> View

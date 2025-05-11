@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import { DownloadContext, UploadContext } from "../App";
 import SubjectCard from "../components/SubjectCard";
 import Footer from "../components/Footer";
+import ViewPaper from "../components/ViewPaper";
 
 export default function Download() {
     const { isDownloadActive, setIsDownloadActive } = useContext(DownloadContext);
@@ -53,6 +54,8 @@ function DownloadActive() {
     const [branch, setBranch] = useState("Branch");
     const [semester, setSemester] = useState("Semester");
     const [year, setYear] = useState("Year");
+    const [viewPaper, setViewPaper] = useState(false);
+    const [currentPaperLink, setCurrentPaperLink] = useState("");
 
     const Subjects = [
         "Subject", "Software Engineering", "Data Structures", "Database Management System",
@@ -78,8 +81,26 @@ function DownloadActive() {
         (year === "Year" || item.year === parseInt(year))
     );
 
+    const handleView = (link) => {
+        // Make sure the link is properly formatted for viewing
+        const viewLink = link.startsWith('/') ? link : `/${link}`;
+        setCurrentPaperLink(viewLink);
+        setViewPaper(true);
+    };
+
+    const handleCloseView = () => {
+        setViewPaper(false);
+        setCurrentPaperLink("");
+    };
+
     return (
         <div className="mt-16 flex items-center justify-center flex-col gap-12 px-4 text-center mb-6">
+            {viewPaper && (
+                <ViewPaper 
+                    paperLink={currentPaperLink} 
+                    onClose={handleCloseView} 
+                />
+            )}
             <div className="flex flex-col gap-4">
                 <h1 className="font-bold text-3xl md:text-5xl">Download PYQ Papers</h1>
                 <p className="text-sm md:text-xl text-gray-600">
@@ -139,6 +160,7 @@ function DownloadActive() {
                             semester={item.semester}
                             year={item.year}
                             link={item.link}
+                            handleView={() => handleView(item.link)}
                         />
                     ))
                 ) : (
