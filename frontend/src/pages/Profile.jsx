@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import NavBar from '../components/NavBar';
+import Navbar from '../components/Navbar';
 export default function Profile() {
     const navigate = useNavigate();
     const { currentUser, logout } = useAuth();
@@ -25,7 +25,7 @@ export default function Profile() {
     return (
         <>
             <div className="mt-4">
-                <NavBar />
+                <Navbar />
             </div>
             <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
