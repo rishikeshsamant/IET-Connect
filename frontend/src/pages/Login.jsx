@@ -8,19 +8,18 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import { useState, useReducer, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { SignUpContext } from '../App';
+import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
   const navigate = useNavigate();
   const { isSignUpActive, setIsSignUpActive } = useContext(SignUpContext);
+  const { login } = useAuth();
+  
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
-
-
-  const randomData = [
-    { email: "yasir@gmail.com", password: "12345678" },
-    { email: "yasir1@gmail.com", password: "123456789" },
-  ];
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const initialState = {
     email: '',
@@ -48,25 +47,26 @@ export default function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setEmailError(false);
     setPasswordError(false);
     setSuccessMessage('');
+    setErrorMessage('');
+    setLoading(true);
 
-    const match = randomData.find(
-      (user) => user.email === state.email && user.password === state.password
-    );
-
-    if (match) {
+    try {
+      await login(state.email, state.password);
       setSuccessMessage('🎉 Congratulations! Logged in successfully.');
       setTimeout(() => navigate('/profile'), 1500);
-    } else {
-      if (!randomData.some((user) => user.email === state.email)) {
-        setEmailError(true);
-      } else {
+    } catch (error) {
+      if (error.message === 'Invalid credentials') {
         setPasswordError(true);
+      } else {
+        setErrorMessage(error.message || 'Login failed. Please try again.');
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -136,6 +136,10 @@ export default function Login() {
                     {passwordError && <p className='text-red-500 text-sm'>Incorrect password.</p>}
                   </div>
 
+                  {errorMessage && (
+                    <div className="text-red-500 text-sm text-center">{errorMessage}</div>
+                  )}
+
                   {successMessage && (
                     <div className="text-green-600 text-sm text-center">{successMessage}</div>
                   )}
@@ -144,12 +148,16 @@ export default function Login() {
                     <Link to={"/forgotpassword"}>Forgot Password?</Link>
                   </div>
 
-                  <button type="submit" className="bg-[#674AFE] text-white py-2 rounded font-semibold hover:opacity-90 transition">
-                    Login
+                  <button 
+                    type="submit" 
+                    className="bg-[#674AFE] text-white py-2 rounded font-semibold hover:opacity-90 transition"
+                    disabled={loading}
+                  >
+                    {loading ? 'Logging in...' : 'Login'}
                   </button>
 
                   <p className="text-sm text-center">
-                    Don’t Have an account? <span className="text-[#674AFE] hover:underline cursor-pointer"
+                    Don't Have an account? <span className="text-[#674AFE] hover:underline cursor-pointer"
                       onClick={() => setIsSignUpActive(true)}>Create One</span>
                   </p>
                 </form>
@@ -162,10 +170,14 @@ export default function Login() {
 }
 
 function SignUp({ setIsSignUpActive }) {
+  const { signup } = useAuth();
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [passwordMatchError, setPasswordMatchError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [name, setName] = useState('');
 
   const initialState = {
     rollNumber: '',
@@ -195,12 +207,17 @@ function SignUp({ setIsSignUpActive }) {
     });
   };
 
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
   const validate = () => {
     let isValid = true;
+    setEmailError(false);
+    setPasswordError(false);
+    setPasswordMatchError(false);
 
-    if (state.email.includes("@gmail")) {
-      setEmailError(false);
-    } else {
+    if (!state.email.includes("@")) {
       setEmailError(true);
       isValid = false;
     }
@@ -208,26 +225,39 @@ function SignUp({ setIsSignUpActive }) {
     if (state.password.length < 8) {
       setPasswordError(true);
       isValid = false;
-    } else {
-      setPasswordError(false);
     }
 
     if (state.password !== state.confirmPassword) {
       setPasswordMatchError(true);
       isValid = false;
-    } else {
-      setPasswordMatchError(false);
     }
 
     return isValid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage('');
+    
     if (validate()) {
-      console.log("Submitted:", state);
-      dispatch({ type: "RESET" });
-      setSubmitted(true);
+      setLoading(true);
+      try {
+        await signup(
+          name,
+          state.rollNumber,
+          state.email,
+          state.password,
+          state.confirmPassword
+        );
+        
+        dispatch({ type: "RESET" });
+        setSubmitted(true);
+        setTimeout(() => setIsSignUpActive(false), 2000);
+      } catch (error) {
+        setErrorMessage(error.message || 'Registration failed. Please try again.');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -247,25 +277,61 @@ function SignUp({ setIsSignUpActive }) {
         <div>
           <div className="flex items-center border border-gray-400 rounded px-3 py-2">
             <PersonIcon className="text-black mr-2" />
-            <input type="text" name="rollNumber" placeholder="Roll Number (e.g. 23CSE123)" className="outline-none w-full"
-              value={state.rollNumber} onChange={handleChange} />
+            <input 
+              type="text" 
+              name="name" 
+              placeholder="Full Name" 
+              className="outline-none w-full"
+              value={name} 
+              onChange={handleNameChange} 
+              required
+            />
+          </div>
+        </div>
+        
+        <div>
+          <div className="flex items-center border border-gray-400 rounded px-3 py-2">
+            <PersonIcon className="text-black mr-2" />
+            <input 
+              type="text" 
+              name="rollNumber" 
+              placeholder="Roll Number (e.g. 23CSE123)" 
+              className="outline-none w-full"
+              value={state.rollNumber} 
+              onChange={handleChange} 
+              required
+            />
           </div>
         </div>
 
         <div>
           <div className="flex items-center border border-gray-400 rounded px-3 py-2">
             <EmailIcon className="text-black mr-2" />
-            <input type="email" name="email" placeholder="Email" className="outline-none w-full"
-              value={state.email} onChange={handleChange} />
+            <input 
+              type="email" 
+              name="email" 
+              placeholder="Email" 
+              className="outline-none w-full"
+              value={state.email} 
+              onChange={handleChange} 
+              required
+            />
           </div>
-          {emailError && <div className="text-red-500 text-sm">Email must be a valid Gmail address</div>}
+          {emailError && <div className="text-red-500 text-sm">Please enter a valid email address</div>}
         </div>
 
         <div>
           <div className="flex items-center border border-gray-400 rounded px-3 py-2">
             <KeyIcon className="text-black mr-2" />
-            <input type="password" name="password" placeholder="Password" className="outline-none w-full"
-              value={state.password} onChange={handleChange} />
+            <input 
+              type="password" 
+              name="password" 
+              placeholder="Password" 
+              className="outline-none w-full"
+              value={state.password} 
+              onChange={handleChange} 
+              required
+            />
           </div>
           {passwordError && <div className="text-red-500 text-sm">Password should be at least 8 characters</div>}
         </div>
@@ -273,14 +339,27 @@ function SignUp({ setIsSignUpActive }) {
         <div>
           <div className="flex items-center border border-gray-400 rounded px-3 py-2">
             <KeyIcon className="text-black mr-2" />
-            <input type="password" name="confirmPassword" placeholder="Confirm Password" className="outline-none w-full"
-              value={state.confirmPassword} onChange={handleChange} />
+            <input 
+              type="password" 
+              name="confirmPassword" 
+              placeholder="Confirm Password" 
+              className="outline-none w-full"
+              value={state.confirmPassword} 
+              onChange={handleChange} 
+              required
+            />
           </div>
           {passwordMatchError && <div className="text-red-500 text-sm">Passwords do not match</div>}
         </div>
 
-        <button className="bg-[#674AFE] text-white py-2 rounded font-semibold hover:opacity-90 transition" type="submit">
-          Sign Up
+        {errorMessage && <div className="text-red-500 text-sm text-center">{errorMessage}</div>}
+
+        <button 
+          className="bg-[#674AFE] text-white py-2 rounded font-semibold hover:opacity-90 transition" 
+          type="submit"
+          disabled={loading}
+        >
+          {loading ? 'Signing up...' : 'Sign Up'}
         </button>
 
         {submitted && <p className="text-green-600 text-center text-sm">Account created successfully!</p>}

@@ -1,5 +1,5 @@
 import express from "express";
-import corsMiddleware from "./middlewares/cors.middleware.js";
+import corsMiddleware from "./middlewares/cors.js";
 import authRoutes from './routes/auth.routes.js';
 import dotenv from 'dotenv';
 dotenv.config();

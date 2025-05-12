@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Routes, Route, } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import { createContext, useState } from 'react';
-import Profile from './pages/profile';
+import Profile from './pages/Profile';
 import ForgotPassword from './components/ForgotPassword';
 import Download from './pages/Download';
+import ProtectedRoute from './components/ProtectedRoute';
 
 export const SignUpContext = createContext();
 export const UploadContext = createContext();
@@ -24,9 +25,23 @@ function App() {
               <Routes>
                 <Route path='/' element={<LandingPage />} />
                 <Route path='/login' element={<Login />} />
-                <Route path='/profile' element={<Profile />} />
+                <Route 
+                  path='/profile' 
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  } 
+                />
                 <Route path='/forgotpassword' element={<ForgotPassword />} />
-                <Route path='/download' element={<Download />} />
+                <Route 
+                  path='/download' 
+                  element={
+                    <ProtectedRoute>
+                      <Download />
+                    </ProtectedRoute>
+                  } 
+                />
               </Routes>
             </Router>
           </UploadContext.Provider>
