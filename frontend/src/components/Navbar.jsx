@@ -1,16 +1,45 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import { SignUpContext } from "../App";
+import authService from "../api/auth.service";
 
-export default function Navbar({ setIsSignUpActive }) {
+export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { setIsSignUpActive } = useContext(SignUpContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsLoggedIn(authService.isLoggedIn());
+  }, []);
 
   const NavOpt = [
     { name: "Download", link: "/download" },
     { name: "Upload", link: "/upload" },
     { name: "Contact", link: "/contact" },
   ];
+
+  const handleLoginClick = () => {
+    setIsSignUpActive(false);
+    navigate('/login');
+  };
+
+  const handleRegisterClick = () => {
+    setIsSignUpActive(true);
+    navigate('/login');
+  };
+
+  const handleLogout = () => {
+    authService.logout();
+    setIsLoggedIn(false);
+    navigate('/');
+  };
+
+  const handleProfile = () => {
+    navigate('/profile');
+  };
 
   return (
     <>
@@ -30,12 +59,37 @@ export default function Navbar({ setIsSignUpActive }) {
             ))}
           </ul>
           <div className="flex gap-4">
-            <button className="bg-[#674AFE] px-4 py-2 rounded-full text-white hover:bg-[#a797fa]" onClick={() => setIsSignUpActive(false)}>
-              <Link to={"/login"}>Login</Link>
-            </button>
-            <button className="bg-black px-4 py-2 rounded-full text-white hover:bg-[#383838]" onClick={() => setIsSignUpActive(true)}>
-              <Link to={"/login"}>Register</Link>
-            </button>
+            {isLoggedIn ? (
+              <>
+                <button 
+                  className="bg-[#674AFE] px-4 py-2 rounded-full text-white hover:bg-[#a797fa]" 
+                  onClick={handleProfile}
+                >
+                  Profile
+                </button>
+                <button 
+                  className="bg-red-500 px-4 py-2 rounded-full text-white hover:bg-[#383838]" 
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <button 
+                  className="bg-[#674AFE] px-4 py-2 rounded-full text-white hover:bg-[#a797fa]" 
+                  onClick={handleLoginClick}
+                >
+                  Login
+                </button>
+                <button 
+                  className="bg-black px-4 py-2 rounded-full text-white hover:bg-[#383838]" 
+                  onClick={handleRegisterClick}
+                >
+                  Register
+                </button>
+              </>
+            )}
           </div>
         </div>
 
@@ -58,16 +112,59 @@ export default function Navbar({ setIsSignUpActive }) {
               </Link>
             </li>
           ))}
-          <li>
-            <button className="bg-[#674AFE] px-6 py-2 rounded-full text-white hover:bg-[#a797fa] w-40" onClick={() => setIsSignUpActive(false)}>
-              <Link to={"/login"}>Login</Link>
-            </button>
-          </li>
-          <li>
-            <button className="bg-black px-6 py-2 rounded-full text-white hover:bg-[#383838] w-40" onClick={() => setIsSignUpActive(true)}>
-              <Link to={"/login"}>Register</Link>
-            </button>
-          </li>
+          {isLoggedIn ? (
+            <>
+              <li>
+                <button 
+                  className="bg-[#674AFE] px-6 py-2 rounded-full text-white hover:bg-[#a797fa] w-40" 
+                  onClick={() => {
+                    handleProfile();
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Profile
+                </button>
+              </li>
+              <li>
+                <button 
+                  className="bg-red-500 px-6 py-2 rounded-full text-white hover:bg-[#383838] w-40" 
+                  onClick={() => {
+                    handleLogout();
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <button 
+                  className="bg-[#674AFE] px-6 py-2 rounded-full text-white hover:bg-[#a797fa] w-40" 
+                  onClick={() => {
+                    setIsSignUpActive(false);
+                    navigate('/login');
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Login
+                </button>
+              </li>
+              <li>
+                <button 
+                  className="bg-black px-6 py-2 rounded-full text-white hover:bg-[#383838] w-40" 
+                  onClick={() => {
+                    setIsSignUpActive(true);
+                    navigate('/login');
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Register
+                </button>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </>

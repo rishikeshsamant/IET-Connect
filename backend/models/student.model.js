@@ -13,7 +13,7 @@ const studentSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       uppercase: true,
-      match: /^\d{2}[A-Z]{3}\d{2}$/, 
+      match: /^\d{2}[A-Z]{3}\d{3}$/, 
     },
     email: {
       type: String,
