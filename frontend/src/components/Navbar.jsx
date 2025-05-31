@@ -6,6 +6,15 @@ import CloseIcon from '@mui/icons-material/Close';
 export default function Navbar({ setIsSignUpActive }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const token = localStorage.getItem('token');
+  const isLoggedIn = !!token;
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = '/login';
+  };
+
   const NavOpt = [
     { name: "Download", link: "/download" },
     { name: "Upload", link: "/upload" },
@@ -14,7 +23,6 @@ export default function Navbar({ setIsSignUpActive }) {
 
   return (
     <>
-      {/* Navbar */}
       <nav className="flex justify-between items-center border-2 border-gray-300 rounded-xl w-[90vw] mx-auto md:h-20 h-10 px-6 font-medium">
         <div className="text-blue-700 font-bold md:text-2xl text-xl">
           <Link to="/">IET Connect</Link>
@@ -29,13 +37,29 @@ export default function Navbar({ setIsSignUpActive }) {
               </li>
             ))}
           </ul>
-          <div className="flex gap-4">
-            <button className="bg-[#674AFE] px-4 py-2 rounded-full text-white hover:bg-[#a797fa]" onClick={() => setIsSignUpActive(false)}>
-              <Link to={"/login"}>Login</Link>
-            </button>
-            <button className="bg-black px-4 py-2 rounded-full text-white hover:bg-[#383838]" onClick={() => setIsSignUpActive(true)}>
-              <Link to={"/login"}>Register</Link>
-            </button>
+          <div className="flex gap-4 items-center">
+            {isLoggedIn ? (
+              <>
+                <button className="bg-[#674AFE] px-4 py-2 rounded-full text-white hover:bg-[#a797fa]">
+                  <Link to={"/profile"}>Profile</Link>
+                </button>
+                <button 
+                  onClick={handleLogout} 
+                  className="bg-red-600 px-4 py-2 rounded-full text-white hover:bg-red-700"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="bg-[#674AFE] px-4 py-2 rounded-full text-white hover:bg-[#a797fa]" onClick={() => setIsSignUpActive(false)}>
+                  <Link to={"/login"}>Login</Link>
+                </button>
+                <button className="bg-black px-4 py-2 rounded-full text-white hover:bg-[#383838]" onClick={() => setIsSignUpActive(true)}>
+                  <Link to={"/login"}>Register</Link>
+                </button>
+              </>
+            )}
           </div>
         </div>
 
@@ -58,16 +82,47 @@ export default function Navbar({ setIsSignUpActive }) {
               </Link>
             </li>
           ))}
-          <li>
-            <button className="bg-[#674AFE] px-6 py-2 rounded-full text-white hover:bg-[#a797fa] w-40" onClick={() => setIsSignUpActive(false)}>
-              <Link to={"/login"}>Login</Link>
-            </button>
-          </li>
-          <li>
-            <button className="bg-black px-6 py-2 rounded-full text-white hover:bg-[#383838] w-40" onClick={() => setIsSignUpActive(true)}>
-              <Link to={"/login"}>Register</Link>
-            </button>
-          </li>
+
+          {isLoggedIn ? (
+            <>
+              <li>
+                <button className="bg-[#674AFE] px-6 py-2 rounded-full text-white hover:bg-[#a797fa] w-40">
+                  <Link to={"/profile"} onClick={() => setMobileMenuOpen(false)}>Profile</Link>
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => {
+                    handleLogout();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="bg-red-600 px-6 py-2 rounded-full text-white hover:bg-red-700 w-40"
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <button className="bg-[#674AFE] px-6 py-2 rounded-full text-white hover:bg-[#a797fa] w-40" onClick={() => {
+                  setIsSignUpActive(false);
+                  setMobileMenuOpen(false);
+                }}>
+                  <Link to={"/login"}>Login</Link>
+                </button>
+              </li>
+              <li>
+                <button className="bg-black px-6 py-2 rounded-full text-white hover:bg-[#383838] w-40" onClick={() => {
+                  setIsSignUpActive(true);
+                  setMobileMenuOpen(false);
+                }}>
+                  <Link to={"/login"}>Register</Link>
+                </button>
+              </li>
+            </>
+          )}
+
         </ul>
       </div>
     </>

@@ -1,7 +1,10 @@
-export default function Profile(){
-    return(
+import Navbar from "../components/Navbar";
+
+export default function Profile() {
+    return (
         <>
-        Hi User Profile
+            <Navbar />
+            hi user
         </>
     )
 }

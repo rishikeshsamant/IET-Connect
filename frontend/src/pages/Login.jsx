@@ -52,9 +52,6 @@ export default function Login() {
 
   try {
     const response = await axios.post('http://localhost:3000/api/auth/login', state);
-    
-    // Backend response example:
-    // { message: 'Login successful', token: '...', student: { id, name, email, rollno } }
 
     if (response.data.token) {
       setSuccessMessage('🎉 Congratulations! Logged in successfully.');
