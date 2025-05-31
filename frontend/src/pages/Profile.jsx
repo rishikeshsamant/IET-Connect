@@ -4,11 +4,7 @@ import Navbar from "../components/Navbar";
 
 export default function Profile() {
     const navigate = useNavigate();
-
-    // Simulate getting user data (you could fetch it from backend too)
     const user = JSON.parse(localStorage.getItem("user"));
-
-    // Redirect if not logged in
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) {

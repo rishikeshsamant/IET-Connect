@@ -25,7 +25,7 @@ export default function Download() {
                 <Navbar />
             </div>
             <div className="w-full flex items-center justify-center mt-6">
-                <div className="flex justify-evenly items-center bg-gray-100 rounded-2xl md:rounded-full gap-4 p-2 shadow-xl shadow-gray-400 flex-col md:flex-row">
+                <div className="flex justify-evenly items-center bg-gray-100 rounded-2xl md:rounded-full gap-4 p-2 shadow-xl shadow-gray-400 flex-col md:flex-row load">
                     <button
                         className={`transition-all duration-300 ease-in-out font-bold rounded-full w-fit px-6 py-2 ${isDownloadActive ? 'bg-[#674AFE] text-white' : 'bg-[#D9D9D9] text-[#858A8E]'
                             }`}
@@ -100,14 +100,14 @@ function DownloadActive() {
                     onClose={handleCloseView}
                 />
             )}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 load">
                 <h1 className="font-bold text-3xl md:text-5xl">Download PYQ Papers</h1>
                 <p className="text-sm md:text-xl text-gray-600">
                     Download your previous years' question papers
                 </p>
             </div>
 
-            <div className="w-full max-w-4xl flex flex-wrap justify-center gap-4 sticky top-2 rounded-xl md:rounded-full bg-white py-4 shadow-xl">
+            <div className="w-full max-w-4xl flex flex-wrap justify-center gap-4 sticky top-2 rounded-xl md:rounded-full bg-white py-4 shadow-xl load">
                 <select
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}

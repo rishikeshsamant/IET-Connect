@@ -24,7 +24,7 @@ export default function Navbar({ setIsSignUpActive }) {
   return (
     <>
       <nav className="flex justify-between items-center border-2 border-gray-300 rounded-xl w-[90vw] mx-auto md:h-20 h-10 px-6 font-medium">
-        <div className="text-blue-700 font-bold md:text-2xl text-xl">
+        <div className="text-blue-700 font-bold md:text-2xl text-xl load">
           <Link to="/">IET Connect</Link>
         </div>
 
@@ -32,12 +32,12 @@ export default function Navbar({ setIsSignUpActive }) {
         <div className="hidden md:flex gap-16 items-center">
           <ul className="flex gap-10">
             {NavOpt.map((opt, index) => (
-              <li key={index}>
+              <li key={index} className="load">
                 <Link to={opt.link}>{opt.name}</Link>
               </li>
             ))}
           </ul>
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 items-center load">
             {isLoggedIn ? (
               <>
                 <button className="bg-[#674AFE] px-4 py-2 rounded-full text-white hover:bg-[#a797fa]">

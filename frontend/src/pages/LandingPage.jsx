@@ -5,6 +5,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import Footer from "../components/Footer";
 import { useContext } from "react";
 import { SignUpContext } from "../App";
+import { Link } from "react-router-dom";
 
 export default function LandingPage() {
   const { isSignUpActive, setIsSignUpActive } = useContext(SignUpContext);
@@ -14,22 +15,22 @@ export default function LandingPage() {
         <Navbar setIsSignUpActive={setIsSignUpActive}/>
         <div className="flex h-[auto] md:h-[80vh] w-full mt-12 md:mt-0.5 items-center justify-center md:justify-evenly flex-col md:flex-row gap-10 md:gap-0">
           <div className="w-full md:w-[40vw] flex flex-col gap-6 md:gap-8 items-center md:items-start text-center md:text-left">
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 load">
               Access previous year question papers with ease
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-gray-600 load">
               Upload, browse, and download past semester exam papers for IET Agra students.
             </p>
-            <div className="flex gap-4 w-full justify-center md:justify-start">
+            <div className="flex gap-4 w-full justify-center md:justify-start load">
               <button className="bg-[#674AFE] text-white w-full sm:w-auto px-6 py-3 rounded-[5px] font-semibold">
-                Get Started
+                <Link to={"/download"}>Get Started</Link>
               </button>
               <button className="text-gray-600 border border-gray-400 w-full sm:w-auto px-6 py-3 rounded-[5px] font-semibold">
                 Learn More
               </button>
             </div>
           </div>
-          <div className="w-[80vw] md:w-[60vh] h-[40vh] md:h-[60vh] object-cover">
+          <div className="w-[80vw] md:w-[60vh] h-[40vh] md:h-[60vh] object-cover load">
             <img
               src="Images/boyImage.png"
               alt="Boy Image"
