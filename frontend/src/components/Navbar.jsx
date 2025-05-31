@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import { ThemeContext } from "../App";
+import ThemeButton from "./ThemeButton";
 
 export default function Navbar({ setIsSignUpActive }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const { theme} = useContext(ThemeContext);
 
   const token = localStorage.getItem('token');
   const isLoggedIn = !!token;
@@ -23,7 +27,7 @@ export default function Navbar({ setIsSignUpActive }) {
 
   return (
     <>
-      <nav className="flex justify-between items-center border-2 border-gray-300 rounded-xl w-[90vw] mx-auto md:h-20 h-10 px-6 font-medium">
+      <nav className={"flex justify-between items-center border-2 border-gray-300 rounded-xl w-[90vw] mx-auto md:h-20 h-10 px-6 font-medium" + (theme === "dark" ? " bg-gray-900 text-white" : " bg-white text-gray-900")}>
         <div className="text-blue-700 font-bold md:text-2xl text-xl load">
           <Link to="/">IET Connect</Link>
         </div>
@@ -37,14 +41,17 @@ export default function Navbar({ setIsSignUpActive }) {
               </li>
             ))}
           </ul>
+          <div>
+            <ThemeButton />
+          </div>
           <div className="flex gap-4 items-center load">
             {isLoggedIn ? (
               <>
                 <button className="bg-[#674AFE] px-4 py-2 rounded-full text-white hover:bg-[#a797fa]">
                   <Link to={"/profile"}>Profile</Link>
                 </button>
-                <button 
-                  onClick={handleLogout} 
+                <button
+                  onClick={handleLogout}
                   className="bg-red-600 px-4 py-2 rounded-full text-white hover:bg-red-700"
                 >
                   Logout
@@ -82,6 +89,9 @@ export default function Navbar({ setIsSignUpActive }) {
               </Link>
             </li>
           ))}
+          <div>
+            <ThemeButton />
+          </div>
 
           {isLoggedIn ? (
             <>
@@ -91,7 +101,7 @@ export default function Navbar({ setIsSignUpActive }) {
                 </button>
               </li>
               <li>
-                <button 
+                <button
                   onClick={() => {
                     handleLogout();
                     setMobileMenuOpen(false);

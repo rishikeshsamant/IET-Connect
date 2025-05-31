@@ -4,10 +4,12 @@ import { DownloadContext, UploadContext } from "../App";
 import SubjectCard from "../components/SubjectCard";
 import Footer from "../components/Footer";
 import ViewPaper from "../components/ViewPaper";
+import { ThemeContext } from "../App";
 
 export default function Download() {
     const { isDownloadActive, setIsDownloadActive } = useContext(DownloadContext);
     const { isUploadActive, setIsUploadActive } = useContext(UploadContext);
+    const { theme } = useContext(ThemeContext);
 
     const handleDownloadClick = () => {
         setIsDownloadActive(true);
@@ -21,35 +23,37 @@ export default function Download() {
 
     return (
         <>
-            <div className="mt-4">
-                <Navbar />
-            </div>
-            <div className="w-full flex items-center justify-center mt-6">
-                <div className="flex justify-evenly items-center bg-gray-100 rounded-2xl md:rounded-full gap-4 p-2 shadow-xl shadow-gray-400 flex-col md:flex-row load">
-                    <button
-                        className={`transition-all duration-300 ease-in-out font-bold rounded-full w-fit px-6 py-2 ${isDownloadActive ? 'bg-[#674AFE] text-white' : 'bg-[#D9D9D9] text-[#858A8E]'
-                            }`}
-                        onClick={handleDownloadClick}>
-                        Download
-                    </button>
-                    <button
-                        className={`transition-all duration-300 ease-in-out font-bold rounded-full w-fit px-6 py-2 ${isUploadActive ? 'bg-[#674AFE] text-white' : 'bg-[#D9D9D9] text-[#858A8E]'
-                            }`}
-                        onClick={handleUploadClick}>
-                        Upload
-                    </button>
+            <div className={"w-full min-h-screen flex flex-col items-center justify-start" + (theme === "dark" ? " bg-gray-900 text-white" : " bg-white text-gray-900")}>
+                <div className="mt-4">
+                    <Navbar />
                 </div>
-            </div>
-            <div className="main">
-                {isDownloadActive && <DownloadActive />}
-                {isUploadActive && "Hi I am Upload"}
+                <div className="w-full flex items-center justify-center mt-6">
+                    <div className={"flex justify-evenly items-center bg-gray-100 rounded-2xl md:rounded-full gap-4 p-2 shadow-xl shadow-gray-400 flex-col md:flex-row load" + (theme === "dark" ? " bg-gray-800 text-white" : " bg-white text-gray-900")}>
+                        <button
+                            className={`transition-all duration-300 ease-in-out font-bold rounded-full w-fit px-6 py-2 ${isDownloadActive ? 'bg-[#674AFE] text-white' : 'bg-[#D9D9D9] text-[#858A8E]'
+                                }`}
+                            onClick={handleDownloadClick}>
+                            Download
+                        </button>
+                        <button
+                            className={`transition-all duration-300 ease-in-out font-bold rounded-full w-fit px-6 py-2 ${isUploadActive ? 'bg-[#674AFE] text-white' : 'bg-[#D9D9D9] text-[#858A8E]'
+                                }`}
+                            onClick={handleUploadClick}>
+                            Upload
+                        </button>
+                    </div>
+                </div>
+                <div className="main">
+                    {isDownloadActive && <DownloadActive theme={theme} />}
+                    {isUploadActive && "Hi I am Upload"}
+                </div>
             </div>
             <Footer />
         </>
     );
 }
 
-function DownloadActive() {
+function DownloadActive({ theme }) {
     const [subject, setSubject] = useState("Subject");
     const [branch, setBranch] = useState("Branch");
     const [semester, setSemester] = useState("Semester");
@@ -93,7 +97,7 @@ function DownloadActive() {
     };
 
     return (
-        <div className="mt-16 flex items-center justify-center flex-col gap-12 px-4 text-center mb-6">
+        <div className={"mt-16 flex items-center justify-center flex-col gap-12 px-4 text-center mb-6" + (theme === "dark" ? " bg-gray-900 text-white" : " bg-white text-gray-900")}>
             {viewPaper && (
                 <ViewPaper
                     paperLink={currentPaperLink}
@@ -107,11 +111,11 @@ function DownloadActive() {
                 </p>
             </div>
 
-            <div className="w-full max-w-4xl flex flex-wrap justify-center gap-4 sticky top-2 rounded-xl md:rounded-full bg-white py-4 shadow-xl load">
+            <div className={"w-full max-w-4xl flex flex-wrap justify-center gap-4 sticky top-2 rounded-xl md:rounded-full py-4 shadow-xl load" + (theme === "dark" ? " bg-gray-800 text-white" : " bg-white text-gray-400")}>
                 <select
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    className="w-[100px] md:w-[200px] bg-white border border-gray-300 text-gray-700 text-sm md:text-base rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#674AFE] shadow-sm transition-all"
+                    className="w-[100px] md:w-[200px] border border-gray-300 text-sm md:text-base rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#674AFE] shadow-sm transition-all"
                 >
                     {Subjects.map((val, index) => (
                         <option value={val} key={index}>{val}</option>
@@ -121,7 +125,7 @@ function DownloadActive() {
                 <select
                     value={branch}
                     onChange={(e) => setBranch(e.target.value)}
-                    className="w-[100px] md:w-[200px] bg-white border border-gray-300 text-gray-700 text-sm md:text-base rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#674AFE] shadow-sm transition-all"
+                    className="w-[100px] md:w-[200px]  border border-gray-300  text-sm md:text-base rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#674AFE] shadow-sm transition-all"
                 >
                     {Branches.map((val, index) => (
                         <option value={val} key={index}>{val}</option>
@@ -131,7 +135,7 @@ function DownloadActive() {
                 <select
                     value={semester}
                     onChange={(e) => setSemester(e.target.value)}
-                    className="w-[100px] md:w-[200px] bg-white border border-gray-300 text-gray-700 text-sm md:text-base rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#674AFE] shadow-sm transition-all"
+                    className="w-[100px] md:w-[200px] border border-gray-300  text-sm md:text-base rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#674AFE] shadow-sm transition-all"
                 >
                     {Semesters.map((val, index) => (
                         <option value={val} key={index}>{val}</option>
@@ -141,7 +145,7 @@ function DownloadActive() {
                 <select
                     value={year}
                     onChange={(e) => setYear(e.target.value)}
-                    className="w-[100px] md:w-[200px] bg-white border border-gray-300 text-gray-700 text-sm md:text-base rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#674AFE] shadow-sm transition-all"
+                    className="w-[100px] md:w-[200px]  border border-gray-300 text-sm md:text-base rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#674AFE] shadow-sm transition-all"
                 >
                     {Years.map((val, index) => (
                         <option value={val} key={index}>{val}</option>

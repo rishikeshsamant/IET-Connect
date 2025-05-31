@@ -6,16 +6,18 @@ import Footer from "../components/Footer";
 import { useContext } from "react";
 import { SignUpContext } from "../App";
 import { Link } from "react-router-dom";
+import { ThemeContext } from "../App";
 
 export default function LandingPage() {
+  const { theme } = useContext(ThemeContext);
   const { isSignUpActive, setIsSignUpActive } = useContext(SignUpContext);
   return (
     <>
-      <div className="flex justify-center items-center p-4 flex-col">
-        <Navbar setIsSignUpActive={setIsSignUpActive}/>
+      <div className={"flex justify-center items-center p-4 flex-col" + (theme === "dark" ? " bg-gray-900 text-white" : " bg-white text-gray-900")}>
+        <Navbar setIsSignUpActive={setIsSignUpActive} />
         <div className="flex h-[auto] md:h-[80vh] w-full mt-12 md:mt-0.5 items-center justify-center md:justify-evenly flex-col md:flex-row gap-10 md:gap-0">
           <div className="w-full md:w-[40vw] flex flex-col gap-6 md:gap-8 items-center md:items-start text-center md:text-left">
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 load">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight load">
               Access previous year question papers with ease
             </h1>
             <p className="text-lg text-gray-600 load">
@@ -39,14 +41,14 @@ export default function LandingPage() {
           </div>
         </div>
       </div>
-      <Discover />
-      <MoreInfo />
+      <Discover theme={theme}/>
+      <MoreInfo theme={theme}/>
       <Footer />
     </>
   );
 }
 
-function Discover() {
+function Discover({theme}) {
   const cardData = [
     {
       icon: <FileUploadIcon className="bg-[#674AFE] text-white" />,
@@ -66,11 +68,11 @@ function Discover() {
   ];
 
   return (
-    <div className="py-10 px-4 md:px-20 text-center">
+    <div className={"py-10 px-4 md:px-20 text-center" + (theme === "dark" ? " bg-gray-900 text-white" : " bg-white text-gray-900")}>
       <h1 className="text-3xl font-bold mb-8">Discover Our Benefits & Features</h1>
       <div className="flex flex-col gap-4 md:flex-row">
         {cardData.map((elem, index) => (
-          <div key={index} className="bg-white p-6 rounded-lg transition-all duration-300 ease-in-out hover:shadow-[#674AFE] hover:shadow-2xl border-2 border-gray-200">
+          <div key={index} className={"p-6 rounded-lg transition-all duration-300 ease-in-out hover:shadow-[#674AFE] hover:shadow-2xl border-2 border-gray-200" + (theme === "dark" ? " border-gray-700" : " border-gray-300")}>
             <div className="text-4xl mb-4 flex items-center justify-center ">
               <div className="bg-[#674AFE] h-12 w-12 flex items-center justify-center rounded">
                 {elem.icon}
@@ -87,9 +89,9 @@ function Discover() {
 }
 
 
-function MoreInfo() {
+function MoreInfo({theme}) {
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between gap-10 md:gap-20 px-6 md:px-20 py-10">
+    <div className={"flex flex-col md:flex-row items-center justify-between gap-10 md:gap-20 px-6 md:px-20 py-10"+ (theme === "dark" ? " bg-gray-900 text-white" : " bg-white text-gray-900")}>
       <div className="w-full md:w-1/2 rounded-3xl overflow-hidden">
         <img
           src="Images/paper.png"
