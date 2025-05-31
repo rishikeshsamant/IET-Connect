@@ -9,6 +9,7 @@ import { useState, useReducer, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { SignUpContext } from '../App';
 import SignUp from './SignUp';
+import axios from 'axios';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -16,12 +17,6 @@ export default function Login() {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
-
-
-  const randomData = [
-    { email: "yasir@gmail.com", password: "12345678" },
-    { email: "yasir1@gmail.com", password: "123456789" },
-  ];
 
   const initialState = {
     email: '',
@@ -49,27 +44,36 @@ export default function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setEmailError(false);
-    setPasswordError(false);
-    setSuccessMessage('');
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setEmailError(false);
+  setPasswordError(false);
+  setSuccessMessage('');
 
-    const match = randomData.find(
-      (user) => user.email === state.email && user.password === state.password
-    );
+  try {
+    const response = await axios.post('http://localhost:3000/api/auth/login', state);
+    
+    // Backend response example:
+    // { message: 'Login successful', token: '...', student: { id, name, email, rollno } }
 
-    if (match) {
+    if (response.data.token) {
       setSuccessMessage('🎉 Congratulations! Logged in successfully.');
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.student));
       setTimeout(() => navigate('/profile'), 1500);
     } else {
-      if (!randomData.some((user) => user.email === state.email)) {
-        setEmailError(true);
-      } else {
-        setPasswordError(true);
-      }
+      setEmailError(true); 
     }
-  };
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+      setEmailError(true);
+      setPasswordError(true);
+    } else {
+      console.error(error.message);
+    }
+  }
+};
+
 
 
   return (
