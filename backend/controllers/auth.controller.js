@@ -5,7 +5,7 @@ import { sendEmail } from '../utils/mailer.js';
 
 export const signup = async (req, res) => {
   try {
-    const { name, rollno, email, password, confirmPassword } = req.body;
+    const { rollno, email, password, confirmPassword } = req.body;
 
     if (password !== confirmPassword)
       return res.status(400).json({ message: 'Passwords do not match' });
@@ -18,17 +18,18 @@ export const signup = async (req, res) => {
 
     const hashed = await bcrypt.hash(password, 10);
     const student = await Student.create({
-      name,
-      rollno,
+      rollno: rollno.toUpperCase(),
       email: email.toLowerCase(),
       password: hashed,
     });
 
     res.status(201).json({ message: 'Signup successful' });
   } catch (err) {
+    console.error("SIGNUP ERROR:", err);  // <--- Add this too
     res.status(500).json({ message: 'Error signing up', error: err.message });
   }
 };
+
 
 export const login = async (req, res) => {
   try {

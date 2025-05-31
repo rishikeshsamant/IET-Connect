@@ -1,6 +1,11 @@
 import dotenv from "dotenv";
 import app from "./app.js";
 import connectDB from "./config/db.js";
+import cors from 'cors';
+app.use(cors({
+  origin: 'http://localhost:5137'
+}));
+
 
 dotenv.config();
 
