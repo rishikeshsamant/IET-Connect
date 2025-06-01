@@ -36,7 +36,7 @@ export default function Download() {
                             Download
                         </button>
                         <button
-                            className={`transition-all duration-300 ease-in-out font-bold rounded-full w-fit px-6 py-2 ${isUploadActive ? 'bg-[#674AFE] text-white' : 'bg-[#D9D9D9] text-[#858A8E]'
+                            className={`transition-all duration-300 ease-in-out font-bold rounded-full w-full px-6 py-2 ${isUploadActive ? 'bg-[#674AFE] text-white' : 'bg-[#D9D9D9] text-[#858A8E]'
                                 }`}
                             onClick={handleUploadClick}>
                             Upload

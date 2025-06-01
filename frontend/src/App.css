@@ -10,8 +10,7 @@ a {
 }
 
 ::selection {
-  color: blueviolet;
-  background: #6872fd;
+  color: rgb(169, 78, 255);
 }
 
 .action-icon {
