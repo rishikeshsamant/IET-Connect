@@ -41,7 +41,7 @@ export default function Navbar({ setIsSignUpActive }) {
               </li>
             ))}
           </ul>
-          <div>
+          <div className="load">
             <ThemeButton />
           </div>
           <div className="flex gap-4 items-center load">
